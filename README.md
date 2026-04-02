@@ -1,74 +1,168 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# System Approval (E-Approval System)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+A multi-company electronic approval and workflow management platform built with Laravel. Designed for organizations to create, submit, review, approve/reject, and track various types of business requests across multiple subsidiaries.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Multi-Company Support** — Serves multiple companies/subsidiaries (STSK, MFI, NGO, ORD, ST, MMI, MHT, TSP) with company-scoped data
+- **38+ Request Types** — Special Expense, General Expense, Cash Advance, PO, PR, GRN, Memos, OT, Training, Missions, Loans, Disposal, Contracts, and more
+- **Hierarchical Approval Workflow** — Position-based approval chain from officer to president level
+- **Role-Based Access Control** — System admin, sub-admin, manager, and regular user roles
+- **Notifications** — Telegram bot, OneSignal push notifications, and email alerts at each approval stage
+- **PDF Generation** — Auto-generate PDF request forms
+- **Excel Export/Import** — Summary reports and bulk data operations
+- **Khmer Language Support** — Primary locale is Khmer (km) with English fallback
+- **Real-time Updates** — WebSocket support via Laravel WebSockets
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Category | Technology |
+|---|---|
+| Language | PHP 7.2+ |
+| Framework | Laravel 6.2 |
+| Database | MySQL |
+| Frontend | AdminLTE 3, Bootstrap |
+| Build Tool | Laravel Mix (Webpack) |
+| PDF | FPDF / FPDI |
+| Excel | Maatwebsite Excel 3.1 |
+| Notifications | Telegram Bot SDK, OneSignal |
+| Realtime | Laravel WebSockets |
 
-## Learning Laravel
+## Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP >= 7.2
+- Composer
+- Node.js & npm
+- MySQL
+- WAMP/XAMPP (or equivalent local server)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+```bash
+# Clone the repository
+git clone <repository-url>
+cd system-approval
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Install PHP dependencies
+composer install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+# Install JS/CSS dependencies
+npm install
 
-## Contributing
+# Copy environment file
+cp .env.example .env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Generate application key
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+## Configuration
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Edit `.env` and set the following:
+
+```env
+APP_URL=http://localhost/system-approval
+
+DB_CONNECTION=mysql
+DB_DATABASE=approval_ord
+DB_USERNAME=root
+DB_PASSWORD=
+
+TELEGRAM_BOT_TOKEN=<your-bot-token>
+```
+
+## Database Setup
+
+```bash
+# Create the MySQL database
+mysql -u root -e "CREATE DATABASE approval_ord;"
+
+# Run migrations
+php artisan migrate
+
+# Seed initial data (positions, users, companies)
+php artisan db:seed
+```
+
+## Compile Assets
+
+```bash
+# Development
+npm run dev
+
+# Production
+npm run prod
+```
+
+## Running the Application
+
+1. Start WAMP (Apache + MySQL)
+2. Navigate to `http://localhost/system-approval`
+3. Log in with seeded credentials (default password: `123456`)
+
+## Project Structure
+
+```
+app/
+├── Console/            # Artisan commands
+├── Entities/           # Domain entity models
+├── Exports/            # Excel export classes
+├── Http/
+│   ├── Controllers/    # 75 controllers (CRUD + approval workflows)
+│   ├── Helpers.php     # Global helper functions
+│   └── Middleware/     # HTTP middleware
+├── Imports/            # Excel import classes
+├── Mail/               # Mailable classes
+├── Model/              # Additional Eloquent models
+├── Notifications/      # Notification classes
+├── User.php            # User model
+├── Approve.php         # Approval workflow model
+└── Request*.php        # Request type models (80+)
+config/
+├── adminlte.php        # Sidebar menu and UI config
+├── app.php             # Request type constants, roles, status codes
+├── database.php        # MySQL connection
+└── telegram.php        # Telegram bot config
+database/
+├── migrations/         # 45 migration files
+└── seeds/              # 15 seeder files
+resources/
+└── views/              # Blade templates (74 view directories)
+routes/
+├── web.php             # Web routes (~900 lines)
+└── api.php             # API endpoints
+```
+
+## Approval Workflow
+
+1. User creates a request (Memo, Expense, PR, etc.)
+2. Request enters **Pending** status
+3. Designated reviewers approve/reject/comment
+4. Request moves through approval chain based on position hierarchy
+5. President/CEO gives final approval
+6. Notifications sent at each stage via Telegram and email
+
+## Position Hierarchy
+
+| Level | Role |
+|---|---|
+| 1 | President |
+| 10 | CEO |
+| 20 | VP / Director |
+| 30 | Manager |
+| 50 | Assistant Manager |
+| 70 | Supervisor |
+| 90 | Officer |
+| 500 | Other |
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/approval-api/get-mission` | Get mission data |
+| POST | `/api/approval-api/get-all-user` | Get all users |
+| POST | `/api/approval-api/get-user-by-id` | Get user by ID |
 
 ## License
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Proprietary. All rights reserved.
