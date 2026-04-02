@@ -1,0 +1,280 @@
+<div class="card-body ">
+  
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('សម្រាប់ក្រុមហ៊ុន') }}</label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('company_id') ? ' has-danger' : '' }}">
+            <select class="form-control company select2" name="company_id">
+              @foreach($company as $key => $value)
+                  <option value="{{ $value->id }}"
+                          @if(Auth::user()->company_id == $value->id))
+                              selected
+                          @endif
+                  >
+                      {{ $value->name }}
+                  </option>
+              @endforeach
+            </select>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <label>សាខា<span style='color: red'>*</span></label>
+    </div>
+    <div class="col-sm-10 form-group">
+      <select class="form-control select2" required name="branch_id">
+        <option value=""><< ជ្រើសរើស >></option>
+        @foreach($branch as $key => $value)
+          <option
+            value="{{ $value->id}}"
+            @if(Auth::user()->branch_id == $value->id) selected @endif
+          >
+            {{ $value->name_km }} ({{ $value->short_name }})
+          </option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <label>ប្រភេទក្រដាសប្រាក់ផ្លាស់ប្តូរ<span style='color: red'>*</span></label>
+    </div>
+    <div class="col-sm-10 form-group">
+      <select class="form-control" required name="type_exchange">
+        <option value=""><< ជ្រើសរើស >></option>
+        <option value="1">ប្តូរពីរៀលទៅដុល្លា</option>
+        <option value="2">ប្តូរពីដុល្លាទៅរៀល</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">ទឹកប្រាក់ប្តូរចេញ<span style='color: red'>*</span></label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('exchange ') ? ' has-danger' : '' }}">
+        <input 
+                type="number" 
+                id="exchange"
+                class="form-control{{ $errors->has('exchange') ? ' is-invalid' : '' }}"
+                name="exchange"
+                required
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">អត្រាប្តូរប្រាក់<span style='color: red'>*</span></label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('rate') ? ' has-danger' : '' }}">
+        <input 
+                type="number" 
+                id="rate"
+                class="form-control{{ $errors->has('rate') ? ' is-invalid' : '' }}"
+                name="rate"
+                required
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">ទឹកប្រាក់ប្តូរចូល<span style='color: red'>*</span></label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('remittance') ? ' has-danger' : '' }}">
+        <input 
+                type="number" 
+                id="remittance"
+                class="form-control{{ $errors->has('remittance') ? ' is-invalid' : '' }}"
+                name="remittance"
+                required
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">{{ __('គោលបំណង') }}<span style='color: red'>*</span></label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('purpose') ? ' has-danger' : '' }}">
+        <textarea
+                id="purpose"
+                class="form-control{{ $errors->has('purpose') ? ' is-invalid' : '' }}"
+                name="purpose"
+                required
+        ></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('កំណត់សម្គាល់') }}</label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('remark') ? ' has-danger' : '' }}">
+              <textarea
+                      id="remark"
+                      class="form-control{{ $errors->has('remark') ? ' is-invalid' : '' }}"
+                      name="remark"
+              ></textarea>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('ឯកសារភ្ជាប់') }}</label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('file') ? ' has-danger' : '' }}">
+              <input
+                  type="file"
+                  id="file"
+                  class="{{ $errors->has('file') ? ' is-invalid' : '' }}"
+                  name="file[]"
+                  multiple="multiple"
+                  value="{{ old('file') }}"
+              >
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">{{ __('ស្នើដោយ') }}</label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('user_id') ? ' has-danger' : '' }}">
+        <select required class="form-control select2 request-by-select2" name="user_id">
+          @foreach($requester as $item)
+            @if($item->id==Auth::id())
+                <option value="{{ $item->id}} " selected="selected">{{ $item->name. ' ('.@$item->position->name_km.')' }}</option>
+            @endif
+          @endforeach
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">{{ __('ពិនិត្យ និងបញ្ជូនបន្តដោយ៖') }}</label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('position_id') ? ' has-danger' : '' }}">
+        <select class="form-control select2" name="reviewers[]" multiple="multiple">
+          @foreach($reviewer as $item)
+            <option value="{{ $item->id }}">{{ $item->reviewer_name }}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">
+      <label>
+        ត្រួតពិនិត្យ(ហត្ថលេខាតូច)
+        <i class="fa fa-xs fa-question-circle tooltipsign" data-toggle="tooltip"
+             title="ផ្នែកពាក់ព័ន្ធដែលជួយត្រួតពិនិត្យ Short sign"
+             data-placement="top"></i>
+        </label>
+    </div>
+    <div class="col-md-10 form-group">
+      <select class="form-control select2" name="review_short[]" multiple>
+        @foreach($reviewer as $item)
+          <option value="{{ $item->id }}">{{ $item->reviewer_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">
+          អនុម័តដោយ
+          <i class="fa fa-xs fa-question-circle tooltipsign" data-toggle="tooltip"
+             title="គណនេយ្យហិរញ្ញវត្ថុជាន់ខ្ពស់"
+             data-placement="top">
+          </i>
+          <span style='color: red'>*</span>
+      </label>
+      <div class="col-sm-10">
+          <div class="form-group">
+              <select required class="form-control select2 request-by-select2" name="approver_id">
+                  <option value=""><<ជ្រើសរើស>></option>
+                  @foreach($approver as $item)
+                      <option value="{{ @$item->id }}">
+                          {{ @$item->approver_name }}
+                      </option>
+                  @endforeach
+              </select>
+          </div>
+      </div>
+  </div>
+
+</div>
+<div class="card-footer">
+  <button
+          type="submit"
+          value="1"
+          name="submit"
+          formaction="{{ route('general_request.store_exchange_money')  }}"
+          form="requestForm"
+          class="btn btn-success">
+    {{ __('Submit') }}
+  </button>
+</div>
+
+<script type="text/javascript">
+
+    //define template
+    var template = $('#sections .section:first').clone();
+
+    //define counter
+    var sectionsCount = 1;
+
+    //add new section
+    $('body').on('click', '.addsection', function() {
+
+        //increment
+        sectionsCount++;
+
+        console.log(1);
+
+        //loop through each input
+        var section = template.clone().find(':input').each(function(){
+
+            //set id to store the updated section number
+            var newId = this.id + sectionsCount;
+
+            //update for label
+            $(this).prev().attr('for', newId);
+
+            //update id
+            this.id = newId;
+            this.value = '';
+            if ($(this).hasClass('debit')) {
+                this.value = 0;
+            }
+            if ($(this).hasClass('credit')) {
+                this.value = 0;
+            }
+        }).end()
+
+        //inject new section
+        .insertBefore('#add_more');
+        return false;
+    });
+
+    //add value
+    $('body').on('click', '.addValue', function() {
+        $('.qty').val(1);
+    });
+
+    //remove section
+    $('#sections').on('click', '.remove', function() {
+        //fade out section
+        if ($('.remove').length > 1) {
+            $(this).parent().fadeOut(300, function() {
+                $(this).parent().empty();
+            });
+        }
+    });
+
+</script>

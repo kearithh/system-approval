@@ -1,0 +1,362 @@
+<div class="card-body ">
+  
+    <div class="table-responsive">
+      <table id="sections_packing" class="table table-hover" style="display: block; overflow-y: auto">
+          <thead class="card-header ">
+              <th style="width: 70px;">សកម្ម</th>
+              <th style="min-width: 350px">ឈ្មោះ<span style='color: red'>*</span></th>
+              <th style="min-width: 120px">ចំនួនប័ណ្ណ<span style='color: red'>*</span></th>
+              <th style="min-width: 80px">រូបិយប័ណ្ណ<span style='color: red'>*</span></th>
+              <th style="min-width: 300px">ចំនួនទឹកប្រាក់<span style='color: red'>*</span></th>
+          </thead>
+          
+          <tbody>
+              <tr class="section_packing">
+                  <td class="text-center">
+                     <button type="button"
+                             id="remove_packing"
+                             class="remove_packing btn btn-sm btn-danger"
+                     >
+                         <i class="fa fa-trash"></i>
+                     </button>
+                  </td>
+                  <td>
+                      <input
+                          required
+                          class="col-sm-12 name_packing"
+                          type="text"
+                          name="name_packing[]"
+                      >
+                  </td>
+                  <td>
+                      <input
+                          required
+                          class="qty_packing col"
+                          value="1"
+                          min="1"
+                          type="number"
+                          name="qty_packing[]"
+                      >
+                  </td>
+                  <td>
+                      <select required class="col-sm-12 currency_packing" style="height: 30px" name="currency_packing[]">
+                          <option value="">----</option>
+                          <option value="KHR" selected >រៀល</option>
+                          <option value="USD">ដុល្លារ</option>
+                      </select>
+                  </td>
+                  <td>
+                      <input
+                          required
+                          class="col amount_packing"
+                          type="number"
+                          name="amount_packing[]"
+                          step="0.1"
+                          value="0" 
+                      >
+                  </td>
+              </tr>
+
+              <tr id="add_more_packing">
+                  <td class="text-center">
+                      <button type="button"
+                              id="addItem_packing"
+                              class="addsection_packing btn btn-sm btn-success"
+                      >
+                          <i class="fa fa-plus"></i>
+                      </button>
+                  </td>
+                  <td colspan="4"></td>
+              </tr>
+              <tr style="background: #dee2e6">
+                  <td colspan="3" class="text-right">សរុប៖</td>
+                  <td>
+                      $ <strong id="total_packing">0</strong>
+                      <input type="hidden" name="total_packing" id="total_input_packing">
+                  </td>
+                  <td>
+                      <strong id="totalKHR_packing">0</strong><sup>៛</sup>
+                      <input type="hidden" name="total_khr_packing" id="total_khr_input_packing">
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('ឯកសារភ្ជាប់') }}</label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('file') ? ' has-danger' : '' }}">
+              <input
+                  type="file"
+                  id="file"
+                  class="{{ $errors->has('file') ? ' is-invalid' : '' }}"
+                  name="file[]"
+                  multiple="multiple"
+                  value="{{ old('file') }}"
+              >
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('សម្រាប់ក្រុមហ៊ុន') }}</label>
+      <div class="col-sm-10">
+          <div class="form-group">
+            <select class="form-control company select2" name="company_id">
+              @foreach($company as $key => $value)
+                  <option value="{{ $value->id}}"
+                          @if(Auth::user()->company_id == $value->id))
+                              selected
+                          @endif
+                  >
+                      {{ $value->name }}
+                  </option>
+              @endforeach
+            </select>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <label>សាខា<span style='color: red'>*</span></label>
+    </div>
+    <div class="col-sm-10 form-group">
+      <select class="form-control select2" required name="branch_id">
+        <option value=""><< ជ្រើសរើស >></option>
+        @foreach($branch as $key => $value)
+          <option
+            value="{{ $value->id}}"
+            @if(Auth::user()->branch_id == $value->id) selected @endif
+          >
+            {{ $value->name_km }} ({{ $value->short_name }})
+          </option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">{{ __('កម្មវត្ថុ') }}<span style='color: red'>*</span></label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('purpose') ? ' has-danger' : '' }}">
+        <textarea
+                id="purpose"
+                class="form-control{{ $errors->has('purpose') ? ' is-invalid' : '' }}"
+                name="purpose"
+                required
+        ></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('មូលហេតុ') }}<span style='color: red'>*</span></label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('reason') ? ' has-danger' : '' }}">
+              <textarea
+                      id="reason"
+                      class="form-control{{ $errors->has('reason') ? ' is-invalid' : '' }}"
+                      name="reason"
+                      required
+              ></textarea>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('បរិយាយ') }}<span style='color: red'>*</span></label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('desc') ? ' has-danger' : '' }}">
+              <textarea
+                      rows="4" 
+                      id="desc"
+                      class="form-control desc_textarea"
+                      name="desc"
+                      required
+              >សាច់ប្រាក់ខ្ចប់នេះ នឹងត្រូវរៀបចំទុកដាក់ក្នុងទូរដែកសុវត្ថភាពដែលស្ថិតនៅក្រោមការគ្រប់គ្រងផ្ទាល់របស់ខ្ញុំបាទ ។ <br>ខ្ញុំបាទប្តេជ្ញាជំរុញឲ្យមន្រ្តីឥណទាន វិលត្រឡប់មកការិយាល័យឲ្យបានទាន់ពេលវេលានាពេលក្រោយៗទៀត ។ </textarea>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">{{ __('កំណត់សម្គាល់') }}</label>
+      <div class="col-sm-10">
+          <div class="form-group{{ $errors->has('remark') ? ' has-danger' : '' }}">
+              <textarea
+                      id="remark"
+                      class="form-control{{ $errors->has('remark') ? ' is-invalid' : '' }}"
+                      name="remark"
+              ></textarea>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">{{ __('ស្នើដោយ') }}</label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('user_id') ? ' has-danger' : '' }}">
+        <select required class="form-control select2 request-by-select2" name="user_id">
+          @foreach($requester as $item)
+            @if($item->id==Auth::id())
+                <option value="{{ $item->id}} " selected="selected">{{ $item->name. ' ('.@$item->position->name_km.')' }}</option>
+            @endif
+          @endforeach
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <label class="col-sm-2 col-form-label">{{ __('ពិនិត្យ និងបញ្ជូនបន្តដោយ៖') }}</label>
+    <div class="col-sm-10">
+      <div class="form-group{{ $errors->has('position_id') ? ' has-danger' : '' }}">
+        <select class="form-control select2" name="reviewers[]" multiple="multiple">
+          @foreach($reviewer as $item)
+            <option value="{{ $item->id }}">{{ $item->reviewer_name }}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">
+      <label>
+        ត្រួតពិនិត្យ(ហត្ថលេខាតូច)
+        <i class="fa fa-xs fa-question-circle tooltipsign" data-toggle="tooltip"
+             title="ផ្នែកពាក់ព័ន្ធដែលជួយត្រួតពិនិត្យ Short sign"
+             data-placement="top"></i>
+        </label>
+    </div>
+    <div class="col-md-10 form-group">
+      <select class="form-control select2" name="review_short[]" multiple>
+        @foreach($reviewer as $item)
+          <option value="{{ $item->id }}">{{ $item->reviewer_name }}</option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+      <label class="col-sm-2 col-form-label">
+          អនុម័តដោយ
+          <i class="fa fa-xs fa-question-circle tooltipsign" data-toggle="tooltip"
+             title="គណនេយ្យហិរញ្ញវត្ថុជាន់ខ្ពស់"
+             data-placement="top">
+          </i>
+          <span style='color: red'>*</span>
+      </label>
+      <div class="col-sm-10">
+          <div class="form-group">
+              <select required class="form-control select2 request-by-select2" name="approver_id">
+                  <option value=""><<ជ្រើសរើស>></option>
+                  @foreach($approver as $item)
+                      <option value="{{ @$item->id }}">
+                          {{ @$item->approver_name }}
+                      </option>
+                  @endforeach
+              </select>
+          </div>
+      </div>
+  </div>
+
+</div>
+<div class="card-footer">
+  <button
+          type="submit"
+          value="1"
+          name="submit"
+          formaction="{{ route('general_request.store')  }}"
+          form="requestForm"
+          class="btn btn-success">
+    {{ __('Submit') }}
+  </button>
+</div>
+
+<script type="text/javascript">
+  
+      //packing
+      calculateAmountPacking();
+
+      function calculateAmountPacking() {
+          $('#sections_packing').on('change keyup mouseover click', '.qty_packing, .amount_packing, .currency_packing, .remove_packing', function() {
+
+              // Total
+              var totalKHR = 0;
+              var totalUSD = 0;
+              $('#sections_packing').find('.amount_packing').each(function() {
+                  var currency = $(this).parent().parent().find('.currency_packing').val();
+                  if(currency == 'KHR') {
+                      totalKHR +=  parseFloat($(this).val());
+                  } else if(currency == 'USD') {
+                      totalUSD +=  parseFloat($(this).val());
+                  } else {
+                      // totalKHR +=  parseFloat($(this).val());
+                  }
+                  //console.log(parseFloat($(this).val()));
+              }).end();
+
+              $('#total_packing').text((formatMoney(totalUSD)));
+              $('#total_input_packing').val((totalUSD));
+              $('#totalKHR_packing').text((formatMoney(totalKHR)));
+              $('#total_khr_input_packing').val((totalKHR));
+          });
+      }
+
+
+      //define template
+      var template_packing = $('#sections_packing .section_packing:first').clone();
+
+      //define counter
+      var sectionsCount_packing = 1;
+
+      //add new section
+      $('body').on('click', '.addsection_packing', function() {
+
+          //increment
+          sectionsCount_packing++;
+
+          //loop through each input
+          var sections_packing = template_packing.clone().find(':input').each(function(){
+              
+              //set id to store the updated section number
+              var newId = this.id + sectionsCount_packing;
+
+              //update for label
+              $(this).prev().attr('for', newId);
+
+              //update id
+              this.id = newId;
+              this.value = '';
+              if ($(this).hasClass('qty')) {
+                  this.value = 1;
+              }
+              if ($(this).hasClass('amount')) {
+                  this.value = 0;
+              }
+
+          }).end()
+
+          //inject new section
+          .insertBefore('#add_more_packing');
+          return false;
+      });
+
+      //add value
+      $('body').on('click', '.addValue_packing', function() {
+          $('.qty').val(1);
+      });
+
+      //remove section
+      $('#sections_packing').on('click', '.remove_packing', function() {
+          //fade out section
+          if ($('.remove_packing').length > 1) {
+              $(this).parent().fadeOut(300, function() {
+                  $(this).parent().empty();
+              });
+          }
+      });
+</script>

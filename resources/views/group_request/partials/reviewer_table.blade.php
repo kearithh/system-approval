@@ -1,0 +1,79 @@
+<div id="reviewer" style="padding: 15px; margin-bottom: 5px">
+    <table class="table table-bordered">
+        <span>តារាងអ្នកត្រួតពិនិត្យ និងអនុម័ត<br>Matrix approval chart</span>
+        <tr>
+            <th style="min-width: 30px; text-align: center">ល.រ<br>No</th>
+            <th style="min-width: 150px;">ឈ្មោះ<br>Name</th>
+            <th style="min-width: 200px;">មុខដំណែង<br>Position</th>
+            <th style="min-width: 30px;">ព្រម<br>Approved</th>
+            <th style="min-width: 30px;">មិនព្រម<br>Disapproved</th>
+            <th colspan="2" class="text-center">មតិយោបល់<br>Comment</th>
+            <th style="width: 100px;" class="text-center">ថ្ងៃអនុម័ត<br>Approval Date</th>
+        </tr>
+        <?php $j = 1; ?>
+        @if (@$reviewers)
+            @foreach($reviewers as $key => $value)
+                @if($value)
+                    <tr>
+                        <td style="text-align: center">{{ $j++ }}</td>
+                        <td>
+                            @if (is_string(@$value->position) && strpos(@$value->position, 'short') !== false)
+                                <button class="btn btn-xs btn-primary tooltipsign" style="margin-right: 2px; margin-bottom: 2px"
+                                        title="Short Signature" data-toggle="tooltip"
+                                        data-placement="top" type="button">
+                                    {{ @$value->name }}
+                                </button>
+                            @else
+                                {{ @$value->name ? @$value->name : @$value->user_name }}
+                            @endif
+                        </td>
+                        <td>{{ $value->position_name }}</td>
+                        <td>
+                            <input disabled type="checkbox" @if ($value->approve_status == config('app.approved')) checked @endif>
+                        </td>
+                        <td>
+                            <input disabled type="checkbox" @if ($value->approve_status == config('app.rejected')) checked @endif>
+                        </td>
+                        @if (@$value->comment)
+                            <td>{{ $value->comment }}</td>
+                        @else
+                            <td class="text-center">N/A</td>
+                        @endif
+                        <td class="text-center">
+                            @if (@$value->attachments->src)
+                                <a href="{{ asset('/'.@$value->attachments->src) }}" target="_self">
+                                    <img src="{{ asset('/'.@$value->attachments->src) }}" alt="file" style="max-height:40px; width: 40px; border: 1px solid;">
+                                </a>
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if(@$value->approved_at)
+                                @if(@$data->company_id == 2 || @$data->company_id == 6) 
+                                    <!-- show time only for MFI and MMI -->
+                                    {{ (\Carbon\Carbon::createFromTimestamp(strtotime(@$value->approved_at))->format('d-m-Y h:i:s a')) }}
+                                @else
+                                    {{ (\Carbon\Carbon::createFromTimestamp(strtotime(@$value->approved_at))->format('d-m-Y')) }}
+                                @endif
+                            @endif
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+        @endif
+    </table>
+    @if(@$data->attachments)
+        <span>ស្នើរដោយៈ</span>
+        <span>{{ @$data->user_name }}</span><br>
+        <span>របាយការណ៍ៈ</span>
+        <span style="color: #32B222;">{{@$data->name}}</span><br>
+        <span>សម្រាប់ថ្ងៃទីៈ</span>
+        <span style="color: red;">
+            {{ (\Carbon\Carbon::createFromTimestamp(strtotime(@$data->end_date))->format('d-m-Y')) }}
+        </span><br>
+        
+        <span>ឯកសារភ្ជាប់ៈ</span>
+        <a href="{{ asset('/'.@$data->attachments[0]['src']) }}" target="_self">{{@$data->attachments[0]['org_name']}}</a><br>
+    @endif
+</div>

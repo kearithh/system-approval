@@ -1,0 +1,23 @@
+    @font-face {
+        font-family: 'Times New Roman';
+        src:
+            url("/font/times.ttf") format("truetype"),
+            url("/font/timesbd.ttf") format("truetype"),
+            url("/font/timesbi.ttf") format("truetype"),
+            url("/font/timesi.ttf") format("truetype");
+    }
+
+    @font-face {
+        font-family: 'Adinda Melia';
+        src: url("/font/Adinda_Melia.otf") format("opentype");
+    }
+
+    @font-face {
+        font-family: 'Khmer OS Content';
+        src: url("/font/KhmerOScontent.ttf") format("truetype");
+    }
+
+    @font-face {
+        font-family: 'Khmer OS Muol Light';
+        src: url("/font/KhmerOSmuollight.ttf") format("truetype");
+    }
