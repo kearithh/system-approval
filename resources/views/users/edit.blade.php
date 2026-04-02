@@ -335,9 +335,9 @@
                     </div>
 
                     <?php
-                      $manage_template_report = is_array($user->manage_template_report) ? $user->manage_template_report : json_decode($user->manage_template_report);
-                      $edit_pending_request = is_array($user->edit_pending_request) ? $user->edit_pending_request : json_decode($user->edit_pending_request);
-                      $view_approved_request = is_array($user->view_approved_request) ? $user->view_approved_request : json_decode($user->view_approved_request);
+                      $manage_template_report = is_array($user->manage_template_report) ? $user->manage_template_report : (json_decode($user->manage_template_report) ?? []);
+                      $edit_pending_request = is_array($user->edit_pending_request) ? $user->edit_pending_request : (json_decode($user->edit_pending_request) ?? []);
+                      $view_approved_request = is_array($user->view_approved_request) ? $user->view_approved_request : (json_decode($user->view_approved_request) ?? []);
                     ?>
 
                     <div class="row">

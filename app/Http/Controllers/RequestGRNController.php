@@ -253,8 +253,9 @@ class RequestGRNController extends Controller
         }
 
         //start get all user
+        $ceo = getCEO();
         $reviewer = User::leftJoin('positions', 'users.position_id', '=', 'positions.id')
-            ->whereNotIn('users.id', [Auth::id(), getCEO()->id])
+            ->whereNotIn('users.id', array_filter([Auth::id(), $ceo ? $ceo->id : null]))
             ->where('users.user_status', config('app.user_active'))
             ->whereNotNull('users.email')
             ->select(
@@ -306,8 +307,9 @@ class RequestGRNController extends Controller
         $data = RequestGRN::find($id);
 
         $ignore = @$data->reviewers()->pluck('id')->toArray();
+        $ceo = getCEO();
         $reviewer = User::leftJoin('positions', 'users.position_id', '=', 'positions.id')
-            ->whereNotIn('users.id', [Auth::id(), getCEO()->id])
+            ->whereNotIn('users.id', array_filter([Auth::id(), $ceo ? $ceo->id : null]))
             ->where('users.user_status', config('app.user_active'))
             ->whereNotNull('users.email');
         if (@$ignore) {

@@ -32,7 +32,7 @@
             @csrf
             {{--@method('post')--}}
 
-            <input type="hidden" class="request_token" name="request_token" value="{{ encrypt($requestGRN->id) }}">
+            <input type="hidden" class="request_token" name="request_token" value="{{ $requestGRN->id ? encrypt($requestGRN->id) : '' }}">
             <div class="card ">
               <div class="card-header card-header-primary">
                 <h4 class="card-title">{{ __('បណ្ណទទួលទំនិញ​/GRN') }}</h4>
@@ -61,7 +61,7 @@
                           <select class="form-control select2" id="company_id" name="company_id">
                             @foreach($company as $key => $value)
                                 <option value="{{ $value->id }}"
-                                        @if(Auth::user()->company_id == $value->id))
+                                        @if(Auth::user()->company_id == $value->id)
                                             selected
                                         @endif
                                 >
@@ -84,7 +84,7 @@
                           <option value=""> << ជ្រើសរើស >> </option>
                             @foreach($requestPO as $key => $value)
                                 <option value="{{ $value->id }}"
-                                        @if(Auth::user()->code_po == $value->id))
+                                        @if(Auth::user()->code_po == $value->id)
                                             selected
                                         @endif
                                 >
@@ -107,7 +107,7 @@
                           <option value=""> << ជ្រើសរើស >> </option>
                             @foreach($requestPR as $key => $value)
                                 <option value="{{ $value->id }}"
-                                        @if(Auth::user()->code_pr == $value->id))
+                                        @if(Auth::user()->code_pr == $value->id)
                                             selected
                                         @endif
                                 >
